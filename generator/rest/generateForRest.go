@@ -82,6 +82,7 @@ var customTemplateFuncs = template.FuncMap{
 	"IsRestOperationCSV":       IsRestOperationCSV,
 	"IsRestOperationTXT":       IsRestOperationTXT,
 	"IsRestOperationMD":        IsRestOperationMD,
+	"RequiresTransaction":      RequiresTransaction,
 	"IsRestOperationNoContent": IsRestOperationNoContent,
 	"IsRestOperationCustom":    IsRestOperationCustom,
 	"IsRestOperationGenerated": IsRestOperationGenerated,
@@ -234,6 +235,10 @@ func IsRestOperationTXT(o model.Operation) bool {
 
 func IsRestOperationMD(o model.Operation) bool {
 	return GetRestOperationFormat(o) == "MD"
+}
+
+func RequiresTransaction(o model.Operation) bool {
+	return GetRestOperationMethod(o) != "GET"
 }
 
 func IsRestOperationNoContent(o model.Operation) bool {
@@ -570,11 +575,29 @@ func {{$oper.Name}}( service *{{$structName}} ) http.HandlerFunc {
 			}
 		{{end}}
 
-		// call business logic
-		{{if HasOutput . }}
-			result, err := service.{{$oper.Name}}({{GetInputParamString . }})
+		{{if RequiresTransaction $oper}}
+			// call business logic in transactional mode
+			{{if HasOutput . }}
+			var result {{GetOutputArgType . }} = nil
+			{{end}}
+			err = repo.RunInTransaction(c, func(ctx context.Context) error {
+				{{if HasOutput . }}
+					result, err = service.{{$oper.Name}}({{GetInputParamString . }})
+				{{else}}
+					err = service.{{$oper.Name}}({{GetInputParamString . }})
+				{{end}}
+				if err != nil {
+					return err
+				}
+				return nil
+			})
 		{{else}}
-			err = service.{{$oper.Name}}({{GetInputParamString . }})
+			// call business logic in non-transactional mode
+			{{if HasOutput . }}
+				result, err := service.{{$oper.Name}}({{GetInputParamString . }})
+			{{else}}
+				err = service.{{$oper.Name}}({{GetInputParamString . }})
+			{{end}}
 		{{end}}
 		if err != nil {
 			errorh.HandleHttpError(err, w)

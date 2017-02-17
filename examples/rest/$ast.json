@@ -136,6 +136,11 @@
 					"name": "getTourOnUid",
 					"inputArgs": [
 						{
+							"packageName": "golang.org/x/net/context",
+							"name": "c",
+							"typeName": "context.Context"
+						},
+						{
 							"name": "year",
 							"typeName": "int"
 						}
@@ -163,6 +168,11 @@
 					},
 					"name": "createEtappe",
 					"inputArgs": [
+						{
+							"packageName": "golang.org/x/net/context",
+							"name": "c",
+							"typeName": "context.Context"
+						},
 						{
 							"name": "year",
 							"typeName": "int"
@@ -196,6 +206,11 @@
 					"name": "addEtappeResults",
 					"inputArgs": [
 						{
+							"packageName": "golang.org/x/net/context",
+							"name": "c",
+							"typeName": "context.Context"
+						},
+						{
 							"name": "year",
 							"typeName": "int"
 						},
@@ -227,6 +242,11 @@
 					},
 					"name": "createCyclist",
 					"inputArgs": [
+						{
+							"packageName": "golang.org/x/net/context",
+							"name": "c",
+							"typeName": "context.Context"
+						},
 						{
 							"name": "year",
 							"typeName": "int"
@@ -260,6 +280,11 @@
 					"name": "markCyclistAbondoned",
 					"inputArgs": [
 						{
+							"packageName": "golang.org/x/net/context",
+							"name": "c",
+							"typeName": "context.Context"
+						},
+						{
 							"name": "year",
 							"typeName": "int"
 						},
@@ -291,6 +316,11 @@
 			"name": "getTourOnUid",
 			"inputArgs": [
 				{
+					"packageName": "golang.org/x/net/context",
+					"name": "c",
+					"typeName": "context.Context"
+				},
+				{
 					"name": "year",
 					"typeName": "int"
 				}
@@ -318,6 +348,11 @@
 			},
 			"name": "createEtappe",
 			"inputArgs": [
+				{
+					"packageName": "golang.org/x/net/context",
+					"name": "c",
+					"typeName": "context.Context"
+				},
 				{
 					"name": "year",
 					"typeName": "int"
@@ -351,6 +386,11 @@
 			"name": "addEtappeResults",
 			"inputArgs": [
 				{
+					"packageName": "golang.org/x/net/context",
+					"name": "c",
+					"typeName": "context.Context"
+				},
+				{
 					"name": "year",
 					"typeName": "int"
 				},
@@ -383,6 +423,11 @@
 			"name": "createCyclist",
 			"inputArgs": [
 				{
+					"packageName": "golang.org/x/net/context",
+					"name": "c",
+					"typeName": "context.Context"
+				},
+				{
 					"name": "year",
 					"typeName": "int"
 				},
@@ -414,6 +459,11 @@
 			},
 			"name": "markCyclistAbondoned",
 			"inputArgs": [
+				{
+					"packageName": "golang.org/x/net/context",
+					"name": "c",
+					"typeName": "context.Context"
+				},
 				{
 					"name": "year",
 					"typeName": "int"
