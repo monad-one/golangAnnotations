@@ -3,22 +3,23 @@ package restAnnotation
 import "github.com/MarcGrol/golangAnnotations/annotation"
 
 const (
-	TypeRestOperation   = "RestOperation"
-	TypeRestService     = "RestService"
-	ParamCredentials    = "credentials"
-	ParamNoValidation   = "novalidation"
-	ParamProtected      = "protected"
-	ParamNoTest         = "notest"
-	ParamNoWrap         = "nowrap"
-	ParamAfter          = "after"
-	ParamPath           = "path"
-	ParamMethod         = "method"
-	ParamForm           = "form"
-	ParamFormat         = "format"
-	ParamFilename       = "filename"
-	ParamOptional       = "optionalargs"
-	ParamRoles          = "roles"
-	ParamProducesEvents = "producesevents"
+	TypeRestOperation       = "RestOperation"
+	TypeRestService         = "RestService"
+	ParamCredentials        = "credentials"
+	ParamNoValidation       = "novalidation"
+	ParamProtected          = "protected"
+	ParamNoTest             = "notest"
+	ParamNoWrap             = "nowrap"
+	ParamAfter              = "after"
+	ParamPath               = "path"
+	ParamMethod             = "method"
+	ParamForm               = "form"
+	ParamFormat             = "format"
+	ParamAllowTrailingSlash = "allowtrailingslash"
+	ParamFilename           = "filename"
+	ParamOptional           = "optionalargs"
+	ParamRoles              = "roles"
+	ParamProducesEvents     = "producesevents"
 )
 
 func Get() []annotation.AnnotationDescriptor {
@@ -30,7 +31,7 @@ func Get() []annotation.AnnotationDescriptor {
 		},
 		{
 			Name:       TypeRestOperation,
-			ParamNames: []string{ParamNoWrap, ParamAfter, ParamPath, ParamMethod, ParamForm, ParamFormat, ParamFilename, ParamOptional, ParamRoles, ParamProducesEvents},
+			ParamNames: []string{ParamNoWrap, ParamAfter, ParamPath, ParamMethod, ParamForm, ParamFormat, ParamFilename, ParamOptional, ParamRoles, ParamProducesEvents, ParamAllowTrailingSlash},
 			Validator:  validateRestOperationAnnotation,
 		}}
 }

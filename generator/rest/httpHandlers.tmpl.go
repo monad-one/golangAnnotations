@@ -24,10 +24,17 @@ func (ts *{{.Name}}) HTTPHandler() http.Handler {
 
 // HTTPHandlerWithRouter registers endpoint in existing router
 func (ts *{{.Name}}) HTTPHandlerWithRouter(router *mux.Router) *mux.Router {
-    subRouter := router.PathPrefix("{{GetRestServicePath . }}").Subrouter()
+	{{ if IsRootPath . -}}
+		subRouter := router
+	{{else -}}
+		subRouter := router.PathPrefix("/").Subrouter()
+	{{end -}}
 
     {{range .Operations -}}
         {{if IsRestOperation . -}}
+			{{ if AllowTrailingSlash . -}}
+				subRouter.HandleFunc(  "{{GetRestOperationPath . }}/", {{.Name}}(ts)).Methods("{{GetRestOperationMethod . }}")
+			{{end -}}
     		subRouter.HandleFunc(  "{{GetRestOperationPath . }}", {{.Name}}(ts)).Methods("{{GetRestOperationMethod . }}")
         {{end -}}
     {{end -}}

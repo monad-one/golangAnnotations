@@ -116,6 +116,8 @@ var customTemplateFuncs = template.FuncMap{
 	"IsRestService":                         IsRestService,
 	"ExtractImports":                        ExtractImports,
 	"GetRestServicePath":                    GetRestServicePath,
+	"IsRootPath":                            IsRootPath,
+	"AllowTrailingSlash":                    AllowTrailingSlash,
 	"GetExtractCredentialsMethod":           GetExtractCredentialsMethod,
 	"IsRestServiceNoValidation":             IsRestServiceNoValidation,
 	"IsRestOperation":                       IsRestOperation,
@@ -194,6 +196,14 @@ func GetRestServicePath(s model.Struct) string {
 		return ann.Attributes[restAnnotation.ParamPath]
 	}
 	return ""
+}
+
+func IsRootPath(s model.Struct) bool {
+	annotations := annotation.NewRegistry(restAnnotation.Get())
+	if ann, ok := annotations.ResolveAnnotationByName(s.DocLines, restAnnotation.TypeRestService); ok {
+		return ann.Attributes[restAnnotation.ParamPath] == "/"
+	}
+	return false
 }
 
 func GetExtractCredentialsMethod(s model.Struct) string {
@@ -277,6 +287,14 @@ func IsRestOperation(o model.Operation) bool {
 	annotations := annotation.NewRegistry(restAnnotation.Get())
 	_, ok := annotations.ResolveAnnotationByName(o.DocLines, restAnnotation.TypeRestOperation)
 	return ok
+}
+
+func AllowTrailingSlash(o model.Operation) bool {
+	annotations := annotation.NewRegistry(restAnnotation.Get())
+	if ann, ok := annotations.ResolveAnnotationByName(o.DocLines, restAnnotation.TypeRestOperation); ok {
+		return ann.Attributes[restAnnotation.ParamAllowTrailingSlash] == "true"
+	}
+	return false
 }
 
 func IsRestOperationNoWrap(o model.Operation) bool {
