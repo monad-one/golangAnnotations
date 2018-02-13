@@ -27,7 +27,7 @@ func (ts *{{.Name}}) HTTPHandlerWithRouter(router *mux.Router) *mux.Router {
 	{{ if IsRootPath . -}}
 		subRouter := router
 	{{else -}}
-		subRouter := router.PathPrefix("/").Subrouter()
+        subRouter := router.PathPrefix("{{GetRestServicePath . }}").Subrouter()
 	{{end -}}
 
     {{range .Operations -}}
