@@ -18,7 +18,7 @@ var (
 
 // HTTPHandler registers endpoint in new router
 func (ts *{{.Name}}) HTTPHandler() http.Handler {
-    router := mux.NewRouter().StrictSlash(true)
+    router := mux.NewRouter()
     return ts.HTTPHandlerWithRouter(router)
 }
 
@@ -32,10 +32,10 @@ func (ts *{{.Name}}) HTTPHandlerWithRouter(router *mux.Router) *mux.Router {
 
     {{range .Operations -}}
         {{if IsRestOperation . -}}
+    		subRouter.HandleFunc(  "{{GetRestOperationPath . }}", {{.Name}}(ts)).Methods("{{GetRestOperationMethod . }}")
 			{{ if AllowTrailingSlash . -}}
 				subRouter.HandleFunc(  "{{GetRestOperationPath . }}/", {{.Name}}(ts)).Methods("{{GetRestOperationMethod . }}")
 			{{end -}}
-    		subRouter.HandleFunc(  "{{GetRestOperationPath . }}", {{.Name}}(ts)).Methods("{{GetRestOperationMethod . }}")
         {{end -}}
     {{end -}}
 

@@ -121,7 +121,7 @@ func (tcl *testClient){{.Name}}(request {{.Name}}TestRequest) {{.Name}}TestRespo
             httpReq, err = http.NewRequest("{{GetRestOperationMethod . }}", request.Url, strings.NewReader(request.Form.Encode()))
             httpReq.Header.Add("Content-Type", "application/x-www-form-urlencoded")
         {{else if HasInput . -}}
-            requestPayload, err = json.MarshalIndent(request.Body, "", "\t")
+			requestPayload, err = json.MarshalIndent(request.Body, "", "\t")
             if err != nil {
                 tcl.t.Fatalf("Error marshalling request: %s", err )
             }
@@ -138,7 +138,9 @@ func (tcl *testClient){{.Name}}(request {{.Name}}TestRequest) {{.Name}}TestRespo
             httpReq.Header.Set("Content-type", "application/json")
         {{end -}}
         {{if HasOutput . -}}
-            httpReq.Header.Set("Accept", "application/json")
+            {{if IsRestOperationJSON . -}}
+                httpReq.Header.Set("Accept", "application/json")
+	        {{end -}}
         {{end -}}
         for k, v := range request.Headers {
             httpReq.Header.Set(k, v)
